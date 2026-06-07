@@ -1,1 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    .slider {
+        width: 1000px;
+        height: 450px;
+        margin: 100px auto;
+        border: 1px solid;
+        display: flex;
+        flex-direction: column;
+        background-color: aquamarine;
+    }
+
+    .slider-wrapper {
+        flex: 4;
+    }
+
+    img {
+        width: 1000px;
+        height: 363px;
+    }
+
+    .slider-footer {
+        height: 80px;
+        position: relative;
+        padding: 20px 5px;
+        box-sizing: border-box;
+        line-height: 20px;
+    }
+
+    .slider-footer p {
+        color: #fff;
+        font-size: 20px;
+    }
+
+    ul li {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        background-color: #ccc;
+        margin-right: 5px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    .active {
+        width: 10px;
+        height: 10px;
+        background-color: #fff;
+    }
+
+    .toggle {
+        position: absolute;
+        top: 20px;
+        right: 5px;
+    }
+
+    button {
+        color: rgba(0, 0, 0, 0.4);
+        width: 40px;
+        height: 30px;
+    }
+</style>
+
+<body>
+    <div class="slider">
+        <div class="slider-wrapper">
+            <img src="../项目3/OIP-C.webp" alt="">
+        </div>
+        <div class="slider-footer">
+            <p>脆脆大王万岁</p>
+            <ul class="slider-indicator">
+                <li class="active"></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+            <div class="toggle">
+                <button class="left">&lt;</button>
+                <button class="right">&gt;</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const sliderData = [
+            { url: '../项目3/OIP-C.webp', title: '脆脆大王万岁', color: 'pink' },
+            { url: '../项目3/OIP-C(6).jpg', title: '宋亚轩天天开心', color: 'lightblue' },
+            { url: '../项目3/OIP-C (1).webp', title: '时代少年团万岁', color: 'yellow' },
+            { url: '../项目3/OIP-C(3).webp', title: '4399', color: 'gray' },
+            { url: '../项目3/OIP-C(4).jpg', title: '碗盆大势CP', color: 'green' },
+            { url: '../项目3/OIP-C(5).jpg', title: '6666666', color: 'red' }
+        ]
+        const img = document.querySelector('.slider-wrapper img')
+        const p = document.querySelector('p')
+        const li = document.querySelectorAll('li')
+        const right = document.querySelector('.right')
+        let i = 0
+        right.addEventListener('click', function () {
+            i++
+            if (i >= 6) {
+                i = 0
+            }
+            toggle()
+        })
+        const left = document.querySelector('.left')
+        left.addEventListener('click', function () {
+            i--
+            if (i < 0) {
+                i = sliderData.length
+            }
+            toggle()
+        })
+
+        //复用
+        function toggle() {
+            img.src = sliderData[i].url
+            p.innerHTML = sliderData[i].title
+            document.querySelector('.active').classList.remove('active')
+            document.querySelector(`li:nth-child(${i + 1})`).classList.add('active')
+        }
+
+        //自动播放
+        let n = setInterval(function () {
+            right.click()
+        }, 1000)
+
+        //鼠标经过事件
+        const slider = document.querySelector('.slider')
+        slider.addEventListener('mouseenter', function () {
+            clearInterval(n)
+        })
+
+        slider.addEventListener('mouseleave', function () {
+            clearInterval(n)
+            n = setInterval(function () {
+                right.click()
+            }, 1000)
+        })
+    </script>
+</body>
+
+</html>
